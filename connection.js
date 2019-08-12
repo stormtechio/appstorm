@@ -17,10 +17,7 @@ connection.connect(function(err){
         return;
     }
     console.log('connected as id: ' + connection.threadId);
-
-    var sql = "INSERT INTO user (name, email, password) VALUES ('Saori', 'saoricosta@gmail', 'sassa')";
-    connection.query(sql, function(err, result){
-            if(err) throw err;
-        console.log("Inserted!!!");
-    });
 });
+
+
+module.exports = connection;

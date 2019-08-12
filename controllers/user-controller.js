@@ -13,23 +13,38 @@ exports.get = (req, res, next) =>{
     console.log(result);
     });
 }
-// exports.put = (req, res, next) =>{
 
-//     var sql = "INSERT INTO user (name, email, password) VALUES ('Ayrton', 'ayrton@gmail', 'ayrton')";
-
-//     dbConnection.query(sql, function(err, result){
-//         if(err) throw err;
-//     console.log("Usuário Inserido");
-//     });
-// }
 exports.post = (req, res, next) =>{
 
-    var data = req.body;
-    console.log(data);
+    var dataUser = req.body;
+    
     var sql = 'INSERT INTO user SET ?';
 
-    dbConnection.query(sql,data,function(err, rows, fields){
+    dbConnection.query(sql,dataUser,function(err, result, fields){
         if(err) throw err;
-    console.log("Usuário Inserido");
+    console.log("Usuário inserido com sucesso!");
+    });
+}
+
+exports.put = (req, res, next) =>{
+
+    var idUser = req.params.id;
+    var dataUser = req.body;
+    var sql = "UPDATE user SET ? WHERE id=?";
+
+    dbConnection.query(sql, [dataUser,idUser],function(err, result){
+        if(err) throw err;
+    console.log("Usuário atualizado com sucesso!");
+    });
+}
+
+exports.delete = (req, res, next) =>{
+ 
+    var idUser = req.params.id;
+    var sql = "DELETE FROM user WHERE id=?";
+
+    dbConnection.query(sql, idUser,function(err, result, fields){
+        if(err) throw err;
+    console.log("Usuário excluído com sucesso!");
     });
 }
