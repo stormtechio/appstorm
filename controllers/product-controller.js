@@ -11,6 +11,7 @@ exports.get = (req, res, next) =>{
     dbConnection.query(sql, function(err, result, fields){
         if(err) throw err;
     console.log(result);
+    res.send(result);
     });
 }
 
