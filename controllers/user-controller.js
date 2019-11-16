@@ -2,7 +2,7 @@
 
 const mysql = require('mysql');
 const dbConnection = require('../connection');
-
+const passport = require('passport')
 
 exports.get = (req, res, next) =>{
 
@@ -14,6 +14,8 @@ exports.get = (req, res, next) =>{
     res.send(result);
     });
 }
+
+
 
 exports.post = (req, res, next) =>{
 
@@ -29,13 +31,17 @@ exports.post = (req, res, next) =>{
 
 exports.put = (req, res, next) =>{
 
-    var idUser = req.params.id;
+    var idUser = Number(req.body.id);
     var dataUser = req.body;
-    var sql = "UPDATE user SET ? WHERE id=?";
+    console.log(dataUser);
+    var sql = "UPDATE user SET ? WHERE id = ?";
 
     dbConnection.query(sql, [dataUser,idUser],function(err, result){
-        if(err) throw err;
+        if(err) res.send({'error':err})
     console.log("Usuário atualizado com sucesso!");
+    res.send({'message':'sucesso ao atualizar'});
+        
+    
     });
 }
 
@@ -49,3 +55,34 @@ exports.delete = (req, res, next) =>{
     console.log("Usuário excluído com sucesso!");
     });
 }
+
+exports.postLogin = (req, res, next) =>{
+  
+    passport.authenticate("local",{
+        successRedirect: "/",
+        failureRedirect:"/login",
+        failureFlash: true
+    })(req, res, next)
+   
+
+}
+
+exports.getLogin = (req, res) =>{
+
+res.render("users/login")
+   
+
+}
+
+
+// exports.post = (req, res, next) =>{
+
+
+//     passport.authenticate('local', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   }
+   
+
+// }
+
